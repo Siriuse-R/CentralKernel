@@ -1,0 +1,7 @@
+name: CentralKernel
+version: version-number-unknown
+description: Minecraft Bukkit plugin.
+authors: [SiriuseR]
+website: http://www.siriuser.net/
+main: net.siriuser.centralkernel.CentralKernelCore
+commands:
