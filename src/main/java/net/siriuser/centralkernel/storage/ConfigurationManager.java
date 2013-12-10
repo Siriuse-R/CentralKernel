@@ -1,7 +1,7 @@
 /**
  * CentralKernel - CentralKernelCore.java
  * 
- * Package: net.siriuser.centralkernel
+ * Package: net.siriuser.centralkernel.storage
  * Created: 2013/12/10 05:17:45
  */
 package net.siriuser.centralkernel.storage;
@@ -77,5 +77,24 @@ public class ConfigurationManager {
 
             LogUtil.info("Deleted existing configuration file and generate a new one!");
         }
+    }
+    
+    /**
+     * MySQL Config
+     */
+    public String getMySqlAddress(){
+        return config.getString("MySQL.Server.Address", "localhost");
+    }
+    public int getMySqlPort(){
+        return config.getInt("MySQL.Server.Port", 3306);
+    }
+    public String getMySqlDB(){
+        return config.getString("MySQL.Database.Name", "DatabaseName");
+    }
+    public String getMySqlUser(){
+        return config.getString("MySQL.Database.User", "UserName");
+    }
+    public String getMySqlPass(){
+        return config.getString("MySQL.Database.Pass", "UserPassword");
     }
 }
