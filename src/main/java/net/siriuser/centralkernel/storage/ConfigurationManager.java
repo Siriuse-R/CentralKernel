@@ -78,6 +78,12 @@ public class ConfigurationManager {
             LogUtil.info("Deleted existing configuration file and generate a new one!");
         }
     }
+    /**
+     * Language Config
+     */
+    public String getLanguage(){
+        return config.getString("language", "ja-jp");
+    }
     
     /**
      * MySQL Config
