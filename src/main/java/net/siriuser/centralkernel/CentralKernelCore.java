@@ -15,12 +15,18 @@ public class CentralKernelCore extends JavaPlugin {
     
     private static CentralKernelCore instance;
     
+    private PluginHelper worker;
+    
     /**
      * @author SiriuseR
      */
     @Override
     public void onEnable() {
+        instance = this;
         LogUtil.init(this);
+        
+        worker = PluginHelper.getInstance();
+        worker.setMainPlugin(this);
         
         PluginDescriptionFile pdfFile = this.getDescription();
         LogUtil.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!");
@@ -32,6 +38,10 @@ public class CentralKernelCore extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
+        
+        worker.disableAll();
+        
+        PluginHelper.dispose();
         
         PluginDescriptionFile pdfFile = this.getDescription();
         LogUtil.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is disabled!");
