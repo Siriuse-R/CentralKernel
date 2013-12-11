@@ -1,5 +1,5 @@
 /**
- * CentralKernel - CentralKernelCore.java
+ * CentralKernel - PluginHelper.java
  * 
  * Package: net.siriuser.centralkernel
  * Created: 2013/12/10 16:49:48
