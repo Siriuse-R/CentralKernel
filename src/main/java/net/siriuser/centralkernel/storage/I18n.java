@@ -6,7 +6,11 @@
  */
 package net.siriuser.centralkernel.storage;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -68,20 +72,38 @@ public class I18n {
     public static void setCurrentLanguage(final String locale) throws Exception{
         messages = loadLanguageFile(locale);
     }
-
-    private static Configuration loadLanguageFile(final String locale) throws Exception{
+    
+    private static Configuration loadLanguageFile(final String locale) throws Exception {
         final File langDir = getLanguagesDir();
         File file = new File(langDir, locale + ".yml");
-
+        YamlConfiguration conf = new YamlConfiguration();
+        
         // check file available
         if (file == null || !file.isFile() || !file.canRead()){
             LogUtil.warning("Unknown language file: " + locale);
             return null;
         }
-
-        YamlConfiguration conf =  YamlConfiguration.loadConfiguration(file);
-
-        // check all messages available
+        
+        try {
+            FileInputStream is = new FileInputStream(file);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            
+            String line;
+            while ( (line = reader.readLine()) != null ) {
+                if ( line.contains(":") && !line.startsWith("#") ) {
+                    String key = line.substring(0, line.indexOf(":")).trim();
+                    String value = line.substring(line.indexOf(":") + 1).trim();
+                    if ( value.startsWith("'") && value.endsWith("'") )
+                        value = value.substring(1, value.length()-1);
+                    conf.set(key, value);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            
+        }
+        
         if (fallbackMessages != null && conf.getKeys(true).size() != fallbackMessages.getKeys(true).size()){
             // collect missing message keys
             for (String key : fallbackMessages.getKeys(true)){
@@ -96,6 +118,7 @@ public class I18n {
 
     /* ***** Begin replace words ***** */
     public static final String PLAYER  = "%PLAYER%";
+    public static final String VISITOR = "%VISITOR%";
     /* ***** End replace words ******* */
 
     public static String _(final String key, final Object... args){
