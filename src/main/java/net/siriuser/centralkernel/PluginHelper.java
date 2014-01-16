@@ -6,6 +6,7 @@
  */
 package net.siriuser.centralkernel;
 
+import net.siriuser.centralkernel.feature.GeoIP;
 import net.siriuser.centralkernel.storage.ConfigurationManager;
 import net.siriuser.centralkernel.storage.DeathMessageManager;
 import net.siriuser.centralkernel.storage.I18n;
@@ -47,8 +48,6 @@ public class PluginHelper {
             ex.printStackTrace();
         }
 
-        ConfirmQueue.getInstance();
-
         // Setup language
         LogUtil.info("Loading language file: " + config.getLanguage());
         if (startup){
@@ -68,6 +67,13 @@ public class PluginHelper {
             LogUtil.warning("an error occured while trying to load the deathmessage file.");
             ex.printStackTrace();
         }
+
+        //GeoIP init..
+        if (config.getUseGeoIP()){
+            new GeoIP(plugin).init();
+        }
+
+        ConfirmQueue.getInstance();
     }
 
     public void setMainPlugin(final CentralKernelCore plugin){
@@ -91,6 +97,7 @@ public class PluginHelper {
         }
 
         ConfirmQueue.dispose();
+        GeoIP.dispose();
     }
 
     /**

@@ -1,6 +1,6 @@
 /**
  * CentralKernel - I18n.java
- * 
+ *
  * Package: net.siriuser.centralkernel.storage
  * Created: 2013/12/10 04:10:23
  */
@@ -28,10 +28,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class I18n {
     private static final String languageDir = "languages";
     private static final String defaultLang = "ja-jp";
-    
+
     private static Configuration fallbackMessages;
     private static Configuration messages;
-    
+
     /**
      * Init I18n
      */
@@ -54,7 +54,7 @@ public class I18n {
             messages = fallbackMessages;
         }
     }
-    
+
     private static void extractLanguageFiles(final boolean force){
         final File langDir = getLanguagesDir();
         FileStructure.createDir(langDir);
@@ -68,26 +68,26 @@ public class I18n {
             FileStructure.extractResource("/languages/" + locale + ".yml", langDir, force, true, CentralKernelCore.getInstance());
         }
     }
-    
+
     public static void setCurrentLanguage(final String locale) throws Exception{
         messages = loadLanguageFile(locale);
     }
-    
+
     private static Configuration loadLanguageFile(final String locale) throws Exception {
         final File langDir = getLanguagesDir();
         File file = new File(langDir, locale + ".yml");
         YamlConfiguration conf = new YamlConfiguration();
-        
+
         // check file available
         if (file == null || !file.isFile() || !file.canRead()){
             LogUtil.warning("Unknown language file: " + locale);
             return null;
         }
-        
+
         try {
             FileInputStream is = new FileInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            
+
             String line;
             while ( (line = reader.readLine()) != null ) {
                 if ( line.contains(":") && !line.startsWith("#") ) {
@@ -101,9 +101,9 @@ public class I18n {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            
+
         }
-        
+
         if (fallbackMessages != null && conf.getKeys(true).size() != fallbackMessages.getKeys(true).size()){
             // collect missing message keys
             for (String key : fallbackMessages.getKeys(true)){
@@ -119,6 +119,7 @@ public class I18n {
     /* ***** Begin replace words ***** */
     public static final String PLAYER  = "%PLAYER%";
     public static final String VISITOR = "%VISITOR%";
+    public static final String REASON = "%REASON%";
     /* ***** End replace words ******* */
 
     public static String _(final String key, final Object... args){
@@ -186,7 +187,7 @@ public class I18n {
 
         return s;
     }
-    
+
     /**
      * Get languages directory
      * @return File

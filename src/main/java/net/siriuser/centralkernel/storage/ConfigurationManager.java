@@ -1,6 +1,6 @@
 /**
  * CentralKernel - CentralKernelCore.java
- * 
+ *
  * Package: net.siriuser.centralkernel.storage
  * Created: 2013/12/10 05:17:45
  */
@@ -16,15 +16,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class ConfigurationManager {
     private final int latestVersion = 1;
-    
+
     private final CentralKernelCore plugin;
-    
+
     private FileConfiguration config;
     private File pluginDir;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @author SiriuseR
      * @param plugin
      */
@@ -35,22 +35,22 @@ public class ConfigurationManager {
 
     public void loadConfig(final boolean initiaLoad) throws Exception {
         FileStructure.createDir(pluginDir);
-        
+
         File file = new File(pluginDir, "config.yml");
         if (!file.exists()) {
             FileStructure.extractResource("/config.yml", pluginDir, false, false, plugin);
             LogUtil.info("config.yml is not found! Created default config.yml!");
         }
-        
+
         plugin.reloadConfig();
         config = plugin.getConfig();
-        
+
         checkver(config.getInt("ConfigVersion", 1));
     }
-    
+
     /**
      * Checkver
-     * 
+     *
      * @author SiriuseR
      * @param ver
      */
@@ -84,7 +84,29 @@ public class ConfigurationManager {
     public String getLanguage(){
         return config.getString("language", "ja-jp");
     }
-    
+
+    /**
+     * GeoIP
+     */
+    public boolean getUseGeoIP(){
+        return config.getBoolean("UseGeoIP", true);
+    }
+    public boolean getUseCityDB(){
+        return config.getBoolean("UseCityDB", true);
+    }
+    public boolean getUseSimpleFormatOnJoin(){
+        return config.getBoolean("UseSimpleFormatOnJoin", true);
+    }
+    public boolean getDownloadMissingDB(){
+        return config.getBoolean("DownloadMissingDB", true);
+    }
+    public String getCountryDBurl(){
+        return config.getString("CountryDB", "http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz");
+    }
+    public String getCityDBurl(){
+        return config.getString("CityDB", "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz");
+    }
+
     /**
      * MySQL Config
      */

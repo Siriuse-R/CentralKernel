@@ -7,6 +7,7 @@
 package net.siriuser.centralkernel;
 
 import net.siriuser.centralkernel.listeners.PlayerDeathMessageListener;
+import net.siriuser.centralkernel.listeners.PlayerListener;
 import net.syamn.utils.LogUtil;
 
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -31,6 +32,7 @@ public class CentralKernelCore extends JavaPlugin {
         worker.setMainPlugin(this);
 
         PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(new PlayerListener(this), this);
         pm.registerEvents(new PlayerDeathMessageListener(this), this);
 
         PluginDescriptionFile pdfFile = this.getDescription();
