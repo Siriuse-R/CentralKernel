@@ -1,12 +1,13 @@
 /**
  * CentralKernel - PluginHelper.java
- * 
+ *
  * Package: net.siriuser.centralkernel
  * Created: 2013/12/10 16:49:48
  */
 package net.siriuser.centralkernel;
 
 import net.siriuser.centralkernel.storage.ConfigurationManager;
+import net.siriuser.centralkernel.storage.DeathMessageManager;
 import net.siriuser.centralkernel.storage.I18n;
 import net.syamn.utils.LogUtil;
 import net.syamn.utils.queue.ConfirmQueue;
@@ -25,6 +26,7 @@ public class PluginHelper {
 
     private CentralKernelCore plugin;
     private ConfigurationManager config;
+    private DeathMessageManager deathmsg;
 
     private int afkTaskID = -1;
     private int flymodeTaskID = -1;
@@ -44,7 +46,7 @@ public class PluginHelper {
             LogUtil.warning("an error occured while trying to load the config file.");
             ex.printStackTrace();
         }
-        
+
         ConfirmQueue.getInstance();
 
         // Setup language
@@ -58,12 +60,21 @@ public class PluginHelper {
                 ex.printStackTrace();
             }
         }
+
+        //Load deathmessage
+        try {
+            deathmsg.loadMessage(true);
+        } catch (Exception ex) {
+            LogUtil.warning("an error occured while trying to load the deathmessage file.");
+            ex.printStackTrace();
+        }
     }
 
     public void setMainPlugin(final CentralKernelCore plugin){
         mainThreadID = Thread.currentThread().getId();
         this.plugin = plugin;
         this.config = new ConfigurationManager(plugin);
+        this.deathmsg = new DeathMessageManager(plugin);
 
         init(true);
     }
@@ -105,7 +116,7 @@ public class PluginHelper {
     public boolean isEnableEcon(){
         return this.isEnableEcon;
     }
-    
+
     /**
      * 設定マネージャを返す
      *
@@ -113,5 +124,9 @@ public class PluginHelper {
      */
     public ConfigurationManager getConfig() {
         return config;
+    }
+
+    public DeathMessageManager getDeathMsg() {
+        return deathmsg;
     }
 }
