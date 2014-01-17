@@ -78,6 +78,15 @@ public class ConfigurationManager {
             LogUtil.info("Deleted existing configuration file and generate a new one!");
         }
     }
+
+
+    /**
+     * Permissions Config
+     */
+    public String getPermissionCtrl(){
+        return config.getString("Permission", "PerimssionsEx");
+    }
+
     /**
      * Language Config
      */

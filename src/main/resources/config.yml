@@ -1,5 +1,8 @@
 language: ja-jp
 
+# Supported: PermissionsEx, SuperPerms
+Permission: "PermissionsEx"
+
 #-=-=-=-=-=-=-=-=-=-=-#
 # GeoIP Config        #
 #-=-=-=-=-=-=-=-=-=-=-#
