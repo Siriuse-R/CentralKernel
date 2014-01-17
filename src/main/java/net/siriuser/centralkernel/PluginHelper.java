@@ -7,6 +7,7 @@
 package net.siriuser.centralkernel;
 
 import net.siriuser.centralkernel.feature.GeoIP;
+import net.siriuser.centralkernel.permission.PermissionManager;
 import net.siriuser.centralkernel.storage.ConfigurationManager;
 import net.siriuser.centralkernel.storage.DeathMessageManager;
 import net.siriuser.centralkernel.storage.I18n;
@@ -73,6 +74,7 @@ public class PluginHelper {
             new GeoIP(plugin).init();
         }
 
+        PermissionManager.setupPermissions(plugin);
         ConfirmQueue.getInstance();
     }
 
